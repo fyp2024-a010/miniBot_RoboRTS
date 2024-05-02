@@ -1,2 +1,6 @@
-robot_ws/build
-robot_ws/devel
+
+miniBot_ws/build
+miniBot_ws/devel
+
+roborts_ws/build
+roborts_ws/devel
