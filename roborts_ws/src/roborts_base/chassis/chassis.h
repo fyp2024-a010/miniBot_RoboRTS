@@ -55,22 +55,10 @@ class Chassis {
   void ChassisInfoCallback(const std::shared_ptr<roborts_sdk::cmd_chassis_info> chassis_info);
 
   /**
-   * @brief UWB information callback in sdk
-   * @param uwb_info UWB information
-   */
-  void UWBInfoCallback(const std::shared_ptr<roborts_sdk::cmd_uwb_info> uwb_info);
-
-  /**
    * @brief Chassis speed control callback in ROS
    * @param vel Chassis speed control data
    */
   void ChassisSpeedCtrlCallback(const geometry_msgs::Twist::ConstPtr &vel);
-
-  /**
-   * @brief Chassis speed and acceleration control callback in ROS
-   * @param vel_acc Chassis speed and acceleration control data
-   */
-  void ChassisSpeedAccCtrlCallback(const roborts_msgs::TwistAccel::ConstPtr &vel_acc);
 
   //! sdk handler
   std::shared_ptr<roborts_sdk::Handle> handle_;
@@ -85,19 +73,13 @@ class Chassis {
 
   //! sdk publisher for chassis speed control
   std::shared_ptr<roborts_sdk::Publisher<roborts_sdk::cmd_chassis_speed>> chassis_speed_pub_;
-  //! sdk publisher for chassis speed and acceleration control
-  std::shared_ptr<roborts_sdk::Publisher<roborts_sdk::cmd_chassis_spd_acc>> chassis_spd_acc_pub_;
 
   //! ros node handler
   ros::NodeHandle ros_nh_;
   //! ros subscriber for speed control
   ros::Subscriber ros_sub_cmd_chassis_vel_;
-  //! ros subscriber for chassis speed and acceleration control
-  ros::Subscriber ros_sub_cmd_chassis_vel_acc_;
   //! ros publisher for odometry information
   ros::Publisher ros_odom_pub_;
-  //! ros publisher for uwb information
-  ros::Publisher ros_uwb_pub_;
 
 
   //! ros chassis odometry tf
@@ -106,8 +88,6 @@ class Chassis {
   tf::TransformBroadcaster tf_broadcaster_;
   //! ros odometry message
   nav_msgs::Odometry odom_;
-  //! ros uwb message
-  geometry_msgs::PoseStamped uwb_data_;
 };
 }
 #endif //ROBORTS_BASE_CHASSIS_H
