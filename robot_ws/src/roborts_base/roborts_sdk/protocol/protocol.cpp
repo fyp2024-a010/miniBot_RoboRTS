@@ -70,9 +70,12 @@ bool Protocol::Init() {
   recv_container_ptr_ = new RecvContainer();
 
   SetupSession();
+  DLOG_INFO<<"Setup Complete";
 
   running_ = true;
+  LOG_INFO<<"SendPool Start";
   send_poll_thread_ = std::thread(&Protocol::AutoRepeatSendCheck, this);
+  LOG_INFO<<"ReceivePool Start";
   receive_pool_thread_ = std::thread(&Protocol::ReceivePool, this);
   return true;
 }
@@ -112,7 +115,7 @@ void Protocol::AutoRepeatSendCheck() {
           }
           memory_pool_ptr_->UnlockMemory();
         } else {
-//        DLOG_INFO<<"Wait for timeout Session: "<< i;
+		DLOG_INFO<<"Wait for timeout Session: "<< i;
         }
       }
     }
@@ -135,7 +138,7 @@ void Protocol::ReceivePool() {
                                         container_ptr->command_info.cmd_id)]
             = std::make_shared<CircularBuffer<RecvContainer>>(100);
 
-        DLOG_INFO<<"Capture command: "
+        LOG_INFO<<"Capture command: "
                  <<"cmd set: 0x"<< std::setw(2) << std::hex << std::setfill('0') << int(container_ptr->command_info.cmd_set)
                  <<", cmd id: 0x"<< std::setw(2) << std::hex << std::setfill('0') << int(container_ptr->command_info.cmd_id)
                  <<", sender: 0x"<< std::setw(2) << std::hex << std::setfill('0') << int(container_ptr->command_info.sender)
@@ -648,6 +651,7 @@ RecvContainer *Protocol::Receive() {
     recv_stream_ptr_->recv_index += BUFFER_SIZE;
     recv_buff_read_pos_ = BUFFER_SIZE;
   } else {
+	  LOG_INFO<<"recv_buff_read_len: "<<recv_buff_read_len_;
     for (recv_buff_read_pos_; recv_buff_read_pos_ < recv_buff_read_len_;
          recv_buff_read_pos_++) {
       is_frame = ByteHandler(recv_buff_ptr_[recv_buff_read_pos_]);
