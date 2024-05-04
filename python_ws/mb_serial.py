@@ -69,12 +69,8 @@ class MiniBotSerial():
     
     def _send_value_and_read_response(self, value):
         self.sent_value = value
-        print("sending...")
-        print(value)
         self._send(value)
-        print("waiting for response...")
         self.response = self._read_response()
-        print(self.response)
         return self.response
     
     def send_cmd_and_data(self, cmd, data):
