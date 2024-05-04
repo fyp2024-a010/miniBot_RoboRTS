@@ -80,8 +80,8 @@ def mini_bot_cmd_node(hz = 50):
     # threading.start_new_thread(node_publishers, (hz))
 
 def main():
-    mini_bot_cmd_node()
-    # startup_node_class()
+    # mini_bot_cmd_node()
+    startup_node_class()
 
 if __name__ == "__main__":
     main()
