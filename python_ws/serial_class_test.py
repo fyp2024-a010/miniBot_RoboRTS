@@ -75,7 +75,7 @@ class MiniBotSerial():
         self.waiting_response = True
 
     def read_response(self, cmd_len):
-        self.buffer.clear()
+        self.buffer = []
         while (self.waiting_response):
             if (self.ser.inWaiting() > 0):
                 data = self.ser.read(self.ser.inWaiting())
