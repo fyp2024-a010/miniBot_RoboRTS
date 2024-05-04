@@ -25,13 +25,29 @@ import time
 
 class MiniBotSerial():
     def __init__(self, port = "/dev/serial_sdk", baudrate = "921600", retries = 5):
-        self.ser = serial.Serial(port=port, baudrate=baudrate)
+        self.open_port(port, baudrate, retries)
 
         self.start_4byte = 0xF0FF #0xF0000FFF
         self.data = []
         self.end_4byte = 0xFF0F #0xFFFF0FFF
 
         self.waiting_response = False
+    
+    def open_port(self, port, baudrate, retries):
+        for i in range(retries):
+            try:
+                self.ser = serial.Serial(port, baudrate)
+            except:
+                pass
+
+            if (self.ser.is_open) :
+                print("Serial port opened successfully!")
+                break
+            if (i<retries-1):
+                print("Failed to open serial port. Retrying... (%d/%d)"%(i+1, retries))
+            else:
+                print("Failed to open serial port.")
+            time.sleep(1)
 
     def send_cmd(self, cmd):
         while (self.waiting_response):
