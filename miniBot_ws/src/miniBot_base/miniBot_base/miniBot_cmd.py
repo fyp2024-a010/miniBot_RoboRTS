@@ -10,25 +10,18 @@ import time
 
 class MiniBotCmd():
     def __init__(self, retries = 5, port = "/dev/serial_sdk", baudrate = "921600"):
+        self.miniBotSerial = MiniBotSerial(port, baudrate, retries)
         self.retries = retries
         self.port = port
         self.baudrate = baudrate
-        self.open_serial()
         self.cmd_registery()
 
-    def open_serial(self):
-        for i in range(self.retries):
-            self.miniBotSerial = MiniBotSerial(self.port, self.baudrate)
-            if (self.miniBotSerial.get_port_status()):
-                break
-            time.sleep(1)
-    
     def cmd_registery(self):
         self.cmd_dict = {
-            "__RESERVED__": 0,
-            "CMD_VEL": 1,
-            "ODOM": 2,
-            "IMU": 3,
+            "__RESERVED__": 0x00000200,
+            "CMD_VEL":      0x00000201,
+            "ODOM":         0x00000202,
+            "IMU":          0x00000203,
         }
         self.cmd_str = {v: k for k, v in self.cmd_dict.items()} # Inverse of cmd_dict e.g. {0: 'PACKET_STATUS', ...
 
@@ -42,8 +35,12 @@ class MiniBotCmd():
 
     def set_cmd_vel(self, twist_msg):
         cmd = self.cmd_dict["CMD_VEL"]
-        data = [twist_msg.linear.x, twist_msg.linear.y, twist_msg.linear.z, 
-                twist_msg.angular.x, twist_msg.angular.y, twist_msg.angular.z]
+        data = [twist_msg.linear.x, 
+                twist_msg.linear.y, 
+                twist_msg.linear.z, 
+                twist_msg.angular.x, 
+                twist_msg.angular.y, 
+                twist_msg.angular.z]
         self.send_cmd(cmd, data)
         if (self.miniBotSerial.buffer == [cmd] + data):
             # print("Command sent successfully")

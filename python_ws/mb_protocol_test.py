@@ -26,9 +26,9 @@ Library for serial communication with the miniBot
 
 import serial
 import time
-
 class MiniBotSerial():
     def __init__(self, port = "/dev/serial_sdk", baudrate = "921600", retries = 5):
+        self.serial_status =  False
         self.open_port(port, baudrate, retries)
 
         self.expecting_start = True
@@ -39,21 +39,25 @@ class MiniBotSerial():
         self.read_success = False
         self.waiting_response = False
 
-        self.start_4byte = 0xF0000FFF
+        self.start_4byte = 0xF0FF #0xF0000FFF
         self.data = []
-        self.end_4byte = 0xFFFF0FFF
+        self.end_4byte = 0xFF0F #0xFFFF0FFF
     
     def open_port(self, port, baudrate, retries):
         for i in range(retries):
-            self.ser = serial.Serial(port, baudrate)
-            if (self.ser.is_open) :
-                print("Serial port opened successfully!")
-                break
-            elif (i<retries-1):
-                print("Failed to open serial port. Retrying... (%d/%d)"%(i+1, retries))
-            else:
-                print("Failed to open serial port.")
-            time.sleep(1)
+            try:
+                self.ser = serial.Serial(port, baudrate)
+            except:
+                pass
+
+                if (self.ser.is_open) :
+                    print("Serial port opened successfully!")
+                    break
+                if (i<retries-1):
+                    print("Failed to open serial port. Retrying... (%d/%d)"%(i+1, retries))
+                else:
+                    print("Failed to open serial port.")
+                time.sleep(1)
 
     def close_port(self):
         self.ser.close()
@@ -130,11 +134,11 @@ def main():
             while True:
                 cmd = 1
                 data = [1, 2, 3, 4, 5, 6]
-                mini_bot_serial.write_packet(cmd, data)
-                mini_bot_serial.read_packet(cmd, len(data))
+                mini_bot_serial.write_packet(0x00000201, data)
+                mini_bot_serial.read_packet(0x00000201, len(data))
                 if (mini_bot_serial.read_success):
                     print(mini_bot_serial.data)
-                time.sleep(0.001)
+                time.sleep(0.1)
         except KeyboardInterrupt:
             print("Keyboard interrupt")
             print("Closing serial port...")
