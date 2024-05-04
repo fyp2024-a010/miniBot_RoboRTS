@@ -10,7 +10,6 @@ def bytes_to_int32(data, is_big_endian = 0):
         return struct.unpack(">i", data)[0]
     else:
         # little-endian byte order
-        print(struct.unpack("<i", data))
         return struct.unpack("<i", data)[0]
 
 def int32_to_bytes(int32, is_big_endian = 0):
@@ -61,9 +60,10 @@ class MiniBotSerial():
             print("Serial port closed.")
 
     def send_cmd(self, cmd, data):
-        _delay = 0.1
+        _delay = 0.0001
         while (self.waiting_response):
             pass
+        print("sending...")
         self.ser.write(int32_to_bytes(self.start_4byte))
         print(self.start_4byte)
         time.sleep(_delay)
@@ -80,6 +80,7 @@ class MiniBotSerial():
         self.waiting_response = True
 
     def read_response(self, cmd_len):
+        print("receiving...")
         self.buffer = []
         while (self.waiting_response):
             if (self.ser.inWaiting() > 0):
@@ -118,7 +119,6 @@ def main():
                 cmd_len = 6
                 mini_bot_serial.send_cmd(cmd, data)
                 response = mini_bot_serial.read_response(cmd_len)
-                print(response)
                 time.sleep(0.1)
         except KeyboardInterrupt:
             print("Keyboard interrupt")
