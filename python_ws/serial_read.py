@@ -1,7 +1,7 @@
 import serial
 import time
 
-num = (2**31-1)+1
+num = 2**16
 
 # Replace with the actual port name of your device
 port = '/dev/serial_sdk'  # Windows
