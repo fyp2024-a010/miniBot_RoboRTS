@@ -27,6 +27,8 @@ class MiniBotSerial():
     def __init__(self, port = "/dev/serial_sdk", baudrate = "921600", retries = 5):
         self.open_port(port, baudrate, retries)
 
+        self.ex
+
         self.start_4byte = 0xF000FF
         self.buffer = []
         self.end_4byte = 0xFFF0FF
@@ -80,6 +82,8 @@ class MiniBotSerial():
             if (self.ser.inWaiting() > 0):
                 data = self.ser.read(self.ser.inWaiting())
                 value = bytes_to_int32(data)
+                if (value == self.start_4byte):
+
                 self.buffer.append(value)
                 self.response_count += 1
                 if (self.response_count == cmd_len):
