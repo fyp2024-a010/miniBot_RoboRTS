@@ -48,6 +48,11 @@ class MiniBotSerial():
             else:
                 print("Failed to open serial port.")
             time.sleep(1)
+    
+    def close_port(self):
+        if (self.ser.is_open):
+            self.ser.close()
+            print("Serial port closed.")
 
     def send_cmd(self, cmd):
         while (self.waiting_response):
