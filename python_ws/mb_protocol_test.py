@@ -39,7 +39,7 @@ class MiniBotSerial():
         self.read_success = False
         self.waiting_response = False
 
-        self.start_4byte = 0xF0FF #0xF0000FFF
+        self.start_4byte = 0xF0FF# 0xF0000FFF
         self.data = []
         self.end_4byte = 0xFF0F #0xFFFF0FFF
     
@@ -120,10 +120,14 @@ class MiniBotSerial():
     
     def write_packet(self, cmd, data):
         self.ser.write(self.start_4byte)
+        time.sleep(0.1)
         self.ser.write(cmd)
+        time.sleep(0.1)
         for i in range(len(data)):
             self.ser.write(data[i])
+            time.sleep(0.1)
         self.ser.write(self.end_4byte)
+        time.sleep(0.1)
         self.waiting_response = True
         return 0
 
@@ -134,8 +138,9 @@ def main():
             while True:
                 cmd = 1
                 data = [1, 2, 3, 4, 5, 6]
-                mini_bot_serial.write_packet(0x00000201, data)
-                mini_bot_serial.read_packet(0x00000201, len(data))
+                # mini_bot_serial.write_packet(cmd, data)
+                mini_bot_serial.ser.write(400)
+                #mini_bot_serial.read_packet(cmd, len(data))
                 if (mini_bot_serial.read_success):
                     print(mini_bot_serial.data)
                 time.sleep(0.1)
