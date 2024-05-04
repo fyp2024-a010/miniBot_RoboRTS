@@ -27,10 +27,11 @@ class MiniBotSerial():
     def __init__(self, port = "/dev/serial_sdk", baudrate = "921600", retries = 5):
         self.open_port(port, baudrate, retries)
 
-        self.start_4byte = 0xF0FF #0xF0000FFF
-        self.data = []
-        self.end_4byte = 0xFF0F #0xFFFF0FFF
+        self.start_4byte = 0xF000FF
+        self.buffer = []
+        self.end_4byte = 0xFFF0FF
 
+        self.response_count = 0
         self.waiting_response = False
     
     def open_port(self, port, baudrate, retries):
@@ -54,26 +55,35 @@ class MiniBotSerial():
             self.ser.close()
             print("Serial port closed.")
 
-    def send_cmd(self, cmd):
+    def send_cmd(self, cmd, data):
+        _delay = 0.1
         while (self.waiting_response):
             pass
         self.ser.write(int32_to_bytes(self.start_4byte))
         print(self.start_4byte)
-        time.sleep(1)
+        time.sleep(_delay)
         self.ser.write(int32_to_bytes(cmd))
         print(cmd)
-        time.sleep(1)
+        time.sleep(_delay)
+        for i in range(len(data)):
+            self.ser.write(int32_to_bytes(data[i]))
+            print(data[i])
+            time.sleep(_delay)
         self.ser.write(int32_to_bytes(self.end_4byte))
         print(self.end_4byte)
-        time.sleep(1)
+        time.sleep(_delay)
         self.waiting_response = True
 
-    def read_response(self):
+    def read_response(self, cmd_len):
+        self.buffer.clear()
         while (self.waiting_response):
             if (self.ser.inWaiting() > 0):
                 data = self.ser.read(self.ser.inWaiting())
                 value = bytes_to_int32(data)
-                self.waiting_response = False
+                self.buffer.append(value)
+                self.response_count += 1
+                if (self.response_count == cmd_len):
+                    self.waiting_response = False
         return value
 
 def main():
@@ -81,10 +91,12 @@ def main():
     if (mini_bot_serial.ser.is_open):
         try:
             while True:
-                cmd = 1
+                cmd = 0x201
                 data = [1, 2, 3, 4, 5, 6]
-                mini_bot_serial.send_cmd(0x201)
-                response = mini_bot_serial.read_response()
+                cmd_len = 6
+                mini_bot_serial.send_cmd(cmd, data)
+                response = mini_bot_serial.read_response(cmd_len)
+                print(response)
                 time.sleep(0.1)
         except KeyboardInterrupt:
             print("Keyboard interrupt")
