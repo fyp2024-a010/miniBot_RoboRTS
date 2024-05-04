@@ -13,11 +13,11 @@ def main():
     if (mini_bot_cmd.communicate.ser.is_open):
         try:
             while True:
-                cmd = 0x201
+                cmd = mini_bot_cmd.cmd_dict["CMD_VEL_LINEAR_X"]
                 data = 20000
-                # mini_bot_cmd.communicate.send_cmd_and_data(cmd, data)
-                data = mini_bot_cmd.communicate.request_data()
-                print("Data: ", data)
+                mini_bot_cmd.communicate.send_cmd_and_data(cmd, data)
+                # data = mini_bot_cmd.communicate.request_data(cmd)
+                # print("Data: ", data)
                 # time.sleep(0.0001)
         except KeyboardInterrupt:
             print("Keyboard interrupt")
