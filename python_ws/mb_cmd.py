@@ -1,6 +1,6 @@
 import time
 
-from mb_cmd_list import MiniBotCMDList
+from mb_list import MiniBotCMDList
 from mb_serial import MiniBotSerial
 
 class MiniBotCmd():

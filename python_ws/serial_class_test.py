@@ -1,6 +1,6 @@
 
 
-from mb_cmd_list import MiniBotCMDList
+from python_ws.mb_list import MiniBotCMDList
 
 
 
