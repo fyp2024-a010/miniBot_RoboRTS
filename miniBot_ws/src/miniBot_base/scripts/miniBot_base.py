@@ -7,7 +7,8 @@ from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
 from sensor_msgs.msg import Imu
 
-from miniBot_base.miniBot_cmd import MiniBotCmd
+# from miniBot_base.miniBot_cmd import MiniBotCmd
+from miniBot_cmd import MiniBotCmd
 
 class miniBotBaseNode():
     def __init__(self):
