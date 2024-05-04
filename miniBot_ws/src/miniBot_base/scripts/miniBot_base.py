@@ -8,7 +8,7 @@ from nav_msgs.msg import Odometry
 from sensor_msgs.msg import Imu
 
 # from miniBot_base.miniBot_cmd import MiniBotCmd
-from miniBot_cmd import MiniBotCmd
+from mb_cmd import MiniBotCmd
 
 class miniBotBaseNode():
     def __init__(self):
@@ -73,12 +73,15 @@ def mini_bot_cmd_node(hz = 50):
     imu_publisher = rospy.Publisher('/imu', Imu, queue_size=1)
     odom_publisher = rospy.Publisher('/odom', Odometry, queue_size=1)
     cmd_vel_subscriber = rospy.Subscriber('/cmd_vel', Twist, cmd_vel_callback)
-
-    threading.start_new_thread(node_subscribers, ())
-    threading.start_new_thread(node_publishers, (hz))
+        
+    node_publishers()
+    # node_subscribers()
+    # threading.start_new_thread(node_subscribers, ())
+    # threading.start_new_thread(node_publishers, (hz))
 
 def main():
     mini_bot_cmd_node()
+    # startup_node_class()
 
 if __name__ == "__main__":
     main()
