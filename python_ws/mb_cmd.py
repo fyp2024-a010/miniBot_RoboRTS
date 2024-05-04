@@ -4,7 +4,7 @@ from mb_cmd_list import MiniBotCMDList
 from mb_serial import MiniBotSerial
 
 class MiniBotCmd():
-    def __init__(self, port = "/dev/serial_sdk", baudrate = "921600", retries = 5, is_big_endian = 0):
+    def __init__(self, port = "/dev/serial_sdk", baudrate = "921600", retries = 10, is_big_endian = 0):
         self.communicate = MiniBotSerial(port, baudrate, retries, is_big_endian)
         self.cmd_dict = MiniBotCMDList().get_cmd_dictionary()
 
@@ -16,7 +16,7 @@ def main():
                 cmd = 0x201
                 data = 20000
                 mini_bot_cmd.communicate.send_cmd_and_data(cmd, data)
-                time.sleep(0.1)
+                # time.sleep(0.0001)
         except KeyboardInterrupt:
             print("Keyboard interrupt")
             print("Closing serial port...")
