@@ -53,10 +53,13 @@ class MiniBotSerial():
         while (self.waiting_response):
             pass
         self.ser.write(int32_to_bytes(self.start_4byte))
+        print(self.start4byte)
         time.sleep(0.1)
         self.ser.write(int32_to_bytes(cmd))
+        print(cmd)
         time.sleep(0.1)
         self.ser.write(int32_to_bytes(self.end_4byte))
+        print(self.end4byte)
         time.sleep(0.1)
         self.waiting_response = True
 
