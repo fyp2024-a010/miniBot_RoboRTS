@@ -9,14 +9,17 @@ from sensor_msgs.msg import Imu
 from mb_cmd import MiniBotCmd
 
 def cmd_vel_callback(msg):
+    global imu_msg, odom_msg, twist_msg
     twist_msg = msg
 
 def state_update_timer_callback(event):
+    global imu_msg, odom_msg, twist_msg
     mini_bot_cmd.set_cmd_vel(twist_msg)
     imu_msg = mini_bot_cmd.get_imu(imu_msg)
     odom_msg = mini_bot_cmd.get_odom(odom_msg)
 
 def publish_timer_callback(event):
+    global imu_msg, odom_msg, twist_msg
     imu_publisher.publish(imu_msg)
     odom_publisher.publish(odom_msg)
 
