@@ -94,7 +94,12 @@ class MiniBotSerial():
                 elif (self.expecting_cmd):
                     self.buffer.append(value)
                     self.expecting_cmd = False
-                    self.expecting_data = True
+                    if (cmd_len == 0):
+                        self.expecting_data = False
+                        self.expecting_end = True
+                    else:
+                        self.expecting_data = True
+                        self.expecting_end = False
                 elif (self.expecting_data):
                     self.response_count += 1
                     self.buffer.append(value)
@@ -116,7 +121,7 @@ def main():
             while True:
                 cmd = 0x201
                 data = [1, 2, 3, 4, 5, 6]
-                cmd_len = 6
+                cmd_len = 0
                 mini_bot_serial.send_cmd(cmd, data)
                 response = mini_bot_serial.read_response(cmd_len)
                 time.sleep(0.1)
