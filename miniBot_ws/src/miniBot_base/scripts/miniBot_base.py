@@ -34,8 +34,8 @@ class miniBotBaseNode():
     def run(self):
         rate = rospy.Rate(50)
         while not rospy.is_shutdown():
-            self.get_odom()
-            self.get_imu()
+            #self.get_odom()
+            #self.get_imu()
             rate.sleep()
 
 def startup_node_class():
@@ -46,11 +46,8 @@ def startup_node_class():
         pass
 
 def cmd_vel_callback(twist_msg):
+    print("cmd_vel callback")
     mini_bot_cmd.set_cmd_vel(twist_msg)
-
-def node_subscribers():
-    cmd_vel_subscriber
-    rospy.spin()
 
 def node_publishers(hz = 50):
     imu_msg = Imu()
@@ -74,14 +71,11 @@ def mini_bot_cmd_node(hz = 50):
     odom_publisher = rospy.Publisher('/odom', Odometry, queue_size=1)
     cmd_vel_subscriber = rospy.Subscriber('/cmd_vel', Twist, cmd_vel_callback)
         
-    node_subscribers()
     node_publishers()
-    # threading.start_new_thread(node_subscribers, ())
-    # threading.start_new_thread(node_publishers, (hz))
 
 def main():
-    # mini_bot_cmd_node()
-    startup_node_class()
+    mini_bot_cmd_node()
+    # startup_node_class()
 
 if __name__ == "__main__":
     main()
