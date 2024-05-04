@@ -74,8 +74,8 @@ def mini_bot_cmd_node(hz = 50):
     odom_publisher = rospy.Publisher('/odom', Odometry, queue_size=1)
     cmd_vel_subscriber = rospy.Subscriber('/cmd_vel', Twist, cmd_vel_callback)
         
+    node_subscribers()
     node_publishers()
-    # node_subscribers()
     # threading.start_new_thread(node_subscribers, ())
     # threading.start_new_thread(node_publishers, (hz))
 
