@@ -6,3 +6,7 @@
 - roborts_base
 - roborts_msgs
 [RoboMaters/RoboRTS](https://github.com/RoboMaster/RoboRTS.git)
+
+## Setup
+- turn off desktop environment 
+```sudo systemctl stop gdm```
