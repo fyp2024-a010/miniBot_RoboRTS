@@ -23,7 +23,7 @@ def publish_timer_callback(event):
     imu_publisher.publish(imu_msg)
     odom_publisher.publish(odom_msg)
 
-def mini_bot_cmd_node(hz = 50):
+def mini_bot_cmd_node(hz = 1):
     global mini_bot_cmd, imu_publisher, odom_publisher, cmd_vel_subscriber
     global imu_msg, odom_msg, twist_msg
     imu_msg = Imu()
