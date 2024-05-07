@@ -41,6 +41,8 @@ source: [ros-wiki-teleop-twist-key](http://wiki.ros.org/teleop_twist_keyboard)
 -   alternatively, `sudo systemctl set-default multi-user.target` (sets terminal as default boot target)
 -   set user dialout so that permission is granted for serial ports
     `sudo usermod -a -G dialout your_username`
+-   making script executable
+    `chmod +x mini_bot_base_node.py`
 
 ### Peripheral port setup - roborts
 

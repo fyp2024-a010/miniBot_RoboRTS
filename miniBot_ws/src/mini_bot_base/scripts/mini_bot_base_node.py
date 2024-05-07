@@ -5,7 +5,7 @@ from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
 from sensor_msgs.msg import Imu
 
-from miniBot_base.miniBot_cmd import MiniBotCmd
+from mini_bot_base.mb_cmd import MiniBotCmd
 # from mb_cmd import MiniBotCmd
 
 def cmd_vel_callback(msg):
@@ -23,14 +23,14 @@ def publish_timer_callback(event):
     imu_publisher.publish(imu_msg)
     odom_publisher.publish(odom_msg)
 
-def mini_bot_cmd_node(hz = 1):
+def mini_bot_cmd_node(hz = 50):
     global mini_bot_cmd, imu_publisher, odom_publisher, cmd_vel_subscriber
     global imu_msg, odom_msg, twist_msg
     imu_msg = Imu()
     odom_msg = Odometry()
     twist_msg = Twist()
 
-    mini_bot_cmd = MiniBotCmd(port = "/dev/serial_sdk", baudrate = "921600", retries = 10, is_big_endian = 0)
+    mini_bot_cmd = MiniBotCmd(port = "/dev/ttyACM0", baudrate = "921600", retries = 10, is_big_endian = 0)
 
     rospy.init_node('miniBotBaseNode', anonymous=False)
 
