@@ -8,7 +8,7 @@ from nav_msgs.msg import Odometry
 from sensor_msgs.msg import Imu
 
 class MiniBotCmd():
-    def __init__(self, port = "/dev/serial_sdk", baudrate = "921600", retries = 10, is_big_endian = 0):
+    def __init__(self, port = "/dev/ttyACM0", baudrate = "921600", retries = 10, is_big_endian = 0):
         self.communicate = MiniBotSerial(port, baudrate, retries, is_big_endian)
         self.cmd_dict = MiniBotCMDList().get_cmd_dictionary()
         self.significant_figure = 1e5

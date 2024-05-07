@@ -22,7 +22,7 @@ def int32_to_bytes(int32, is_big_endian = 0):
         return struct.pack("<i", int32)
 
 class MiniBotSerial():
-    def __init__(self, port = "/dev/serial_sdk", baudrate = "921600", retries = 5, is_big_endian = 0):
+    def __init__(self, port = "/dev/ttyACM0", baudrate = "921600", retries = 5, is_big_endian = 0):
         self.port_opened = False
         self.open_port(port, baudrate, retries)
         self.waiting_response = False

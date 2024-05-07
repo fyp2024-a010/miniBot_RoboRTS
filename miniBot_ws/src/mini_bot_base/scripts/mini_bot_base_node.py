@@ -5,8 +5,8 @@ from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
 from sensor_msgs.msg import Imu
 
-# from miniBot_base.miniBot_cmd import MiniBotCmd
-from mb_cmd import MiniBotCmd
+from miniBot_base.miniBot_cmd import MiniBotCmd
+# from mb_cmd import MiniBotCmd
 
 def cmd_vel_callback(msg):
     global imu_msg, odom_msg, twist_msg
