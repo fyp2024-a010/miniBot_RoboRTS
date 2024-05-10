@@ -14,6 +14,10 @@
 
 ## Running Teleop
 
+### RosLaunch
+- `source miniBot_ws/devel/setup.bash`
+- `roslaunch mini_bot_base mini_bot_base_node.launch`
+
 ### Teleop Joy
 
 -   Tested on Logitech F3710
